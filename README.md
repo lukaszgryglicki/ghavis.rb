@@ -85,18 +85,21 @@ Average seems to be from 15000 to 60000.
 - Takes: 10 minutes 50 seconds.
 - Generates 12002 JSONs in `jsons/` directory with summary size 165 Mb (each JSON is a single GitHub event).
 - To do so it processes about 21 Gb of data.
+- XZipped file: `results/k8s_5days_jsons.tar.xz`.
 
 2) Running this program 1 month of data with org `kubernetes` (and no repo set - which means all kubernetes repos).
 June 2017:
 - Takes: 61 minutes 26 seconds.
 - Generates 60773 JSONs in `jsons/` directory with summary size 815 Mb.
 - To do so it processes about 126 Gb of data.
+- XZipped file: `results/k8s_month_jsons.tar.xz`.
 
 3) Running this program 3 hours of data with no filters.
 2017-07-05 hours: 18, 19, 20:
 - Takes: 55 seconds.
 - Generates 168683 JSONs in `jsons/` directory with summary size 1.1 Gb.
 - To do so it processes about 126 Gb of data.
+- XZipped file: `results/all_3hours_jsons.tar.xz`.
 
 Taking all events from single day is 5 minutes 50 seconds (2017-07-28):
 - Generates 1194599 JSON files (1.2M)
@@ -132,6 +135,7 @@ Taking all events from single day is 5 minutes 50 seconds (2017-07-28):
 - Creates 50 releases.
 - Creates 42 release - asset connections.
 - Creates 70 repos.
+- See `results/k8s_month_psql.sql.xz`
 
 2) Running for 3 days 25th, 26th, 27th July 2017 (without org/repo filers) yields:
 - Takes: 55 minutes 16 seconds.
@@ -636,3 +640,16 @@ Currently:
 - Your data source lives in https://<your_domain>:10443 (and https is served by Apache proxy to InfluxDB https:10443 -> http:8086)
 - Your Grafana lives in https://<your_domain> (and https is served by Apache proxy to Grafana https:443 -> http:3000)
 - Files in `grafana/apache` should be copied to `/etc/apache2` (see comments starting with `LG:`) and then `service apache2 restart`
+
+# Grafana anonymous login
+
+To enable Grafana anonymous login, do the foloowoing:
+- Edit Grafana config file: `/etc/grafana/grafana.ini`
+- Make sure You have options enabled:
+```
+[auth.anonymous]
+enabled = true
+org_name = Main Org.
+org_role = Viewer
+```
+- `service grafana-server restart`
